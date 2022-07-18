@@ -20,4 +20,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/posts', [\App\Http\Livewire\Posts::class, 'index'])->name('posts.index');
 Route::get('/users', [\App\Http\Livewire\Users::class, 'index'])->name('users.index');

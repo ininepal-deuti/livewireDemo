@@ -15,6 +15,11 @@ class Posts extends Component
         'body' => 'required|string',
     ];
 
+    public function index()
+    {
+        return view('livewire.posts.index');
+    }
+
     public function render()
     {
         if(auth()->id() == 1){
@@ -22,7 +27,7 @@ class Posts extends Component
         }else{
             $this->posts = Post::userPost(auth()->id())->get();
         }
-        return view('livewire.posts.index');
+        return view('livewire.posts.list');
     }
 
     private function resetInputFields(){
