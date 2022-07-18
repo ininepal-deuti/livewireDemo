@@ -13,13 +13,11 @@
                             {{ session('status') }}
                         </div>
                     @endif
-{{--                    {{ __('You are logged in!') }}--}}
                         <livewire:posts/>
                 </div>
             </div>
         </div>
     </div>
 </div>
-@livewireScripts
 
 @endsection

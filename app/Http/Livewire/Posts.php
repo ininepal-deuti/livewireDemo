@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class Posts extends Component
 {
-    public $posts, $title, $body,$user_id, $post_id;
+    public $posts, $title, $body,$user_id,$post_id;
     public $updateMode = false;
 
     protected $rules = [
@@ -17,7 +17,11 @@ class Posts extends Component
 
     public function render()
     {
-        $this->posts = Post::latest()->get();
+        if(auth()->id() == 1){
+            $this->posts = Post::latest()->get();
+        }else{
+            $this->posts = Post::userPost(auth()->id())->get();
+        }
         return view('livewire.posts.index');
     }
 
@@ -75,5 +79,4 @@ class Posts extends Component
         Post::find($id)->delete();
         session()->flash('message', 'Post Deleted Successfully.');
     }
-
 }

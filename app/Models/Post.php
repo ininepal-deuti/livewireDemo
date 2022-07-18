@@ -16,4 +16,9 @@ class Post extends Model
     public function author(){
         return $this->belongsTo(User::class,'user_id');
     }
+
+    public function scopeUserPost($query,$user)
+    {
+        return $query->where('user_id',$user)->orderBy('id','desc');
+    }
 }
