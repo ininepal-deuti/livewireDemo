@@ -8,8 +8,10 @@ use Livewire\WithPagination;
 
 class Posts extends Component
 {
-    public $title, $body,$user_id,$post_id , $searchPost;
+    public $title, $status,$body,$user_id,$post_id , $searchPost , $postStatus;
     public $updateMode = false;
+
+    protected $listeners = ['updateStatus' => 'changePostStatus'];
 
     protected $queryString = ['searchPost'];
 
@@ -89,5 +91,16 @@ class Posts extends Component
     {
         Post::find($id)->delete();
         session()->flash('message', 'Post Deleted Successfully.');
+    }
+
+    public function changePostStatus($id)
+    {
+        $post = Post::find($id);
+        if($post->status == 1){
+            $this->postStatus = $post->update(['status' =>0]);
+        }else{
+            $this->postStatus = $post->update(['status' =>1]);
+        }
+        session()->flash('message', 'Post Status Change Successfully.');
     }
 }
