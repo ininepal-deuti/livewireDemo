@@ -3,23 +3,27 @@
 namespace App\Http\Livewire;
 
 use App\Models\Post;
+use Illuminate\Support\Str;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 class Posts extends Component
 {
-    public $title, $status,$body,$user_id,$post_id , $searchPost , $postStatus;
+    use WithPagination,WithFileUploads;
+
+    public $title, $status,$photo,$body,$user_id,$post_id , $searchPost , $postStatus , $iteration;
+
     public $updateMode = false;
 
     protected $listeners = ['updateStatus' => 'changePostStatus'];
 
     protected $queryString = ['searchPost'];
 
-    use WithPagination;
-
     protected $rules = [
         'title' => 'required|min:6',
         'body' => 'required|string',
+        'photo' => 'required',
     ];
 
     public function index()
@@ -41,18 +45,20 @@ class Posts extends Component
     private function resetInputFields(){
         $this->title = '';
         $this->body = '';
+        $this->photo = '';
+        $this->iteration++;
     }
 
     public function store()
     {
         $this->validate();
-
+        $filename = $this->photo->store('photos','public');
         Post::create([
             'title' => $this->title,
             'body' => $this->body,
+            'photo' => $filename,
             'user_id' => auth()->id(),
         ]);
-
         session()->flash('message', 'Post Created Successfully.');
         $this->resetInputFields();
     }
@@ -63,6 +69,7 @@ class Posts extends Component
         $this->post_id = $id;
         $this->title = $post->title;
         $this->body = $post->body;
+        $this->photo = $post->photo;
         $this->user_id = auth()->id();
         $this->updateMode = true;
     }
@@ -77,9 +84,11 @@ class Posts extends Component
     {
         $this->validate();
         $post = Post::find($this->post_id);
+        $filename = $this->photo->store('photos','public');
         $post->update([
             'title' => $this->title,
             'body' => $this->body,
+            'photo' => $filename,
             'user_id' => auth()->id(),
         ]);
         $this->updateMode = false;
@@ -103,4 +112,5 @@ class Posts extends Component
         }
         session()->flash('message', 'Post Status Change Successfully.');
     }
+
 }

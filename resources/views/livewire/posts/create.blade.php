@@ -9,5 +9,10 @@
         <textarea type="email" class="form-control" id="body" wire:model="body" placeholder="Enter Body"></textarea>
         @error('body') <span class="text-danger">{{ $message }}</span>@enderror
     </div>
+    <div class="form-group">
+        <label for="photo">Photo:</label>
+        <input type="file" class="form-control" id="photo" wire:model="photo">
+        @error('photo') <span class="text-danger">{{ $message }}</span>@enderror
+    </div>
     <button type="submit" class="btn btn-success">Save</button>
 </form>

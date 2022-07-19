@@ -31,8 +31,12 @@
         @foreach($posts as $post)
             <tr>
                 <td>{{ $post->id }}</td>
-                <td>{{ $post->title }}</td>
-                <td>{{ $post->body }}</td>
+                <td>
+                    @if(!is_null($post->photo))
+                        <img src="{{ asset('storage/'.$post->photo) }}" height="70" width="70">
+                    @endif
+                    {{ $post->title }}</td>
+                <td>{{ \Str::limit($post->body,30) }}</td>
                 <td>{{ $post->author->name }}</td>
                 <td>
                     @if($post->status == 1)
@@ -48,8 +52,12 @@
                     @endif
                 </td>
                 <td>
+                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#postModal{{$post->id}}">
+                        View
+                    </button>
                     <button wire:click="edit({{ $post->id }})" class="btn btn-primary btn-sm">Edit</button>
                     <button wire:click="delete({{ $post->id }})" class="btn btn-danger btn-sm">Delete</button>
+                    @include('livewire.posts.show')
                 </td>
             </tr>
         @endforeach
