@@ -27,7 +27,7 @@ class Posts extends Component
 
     public function render()
     {
-        $userId = auth()->id();
+        $userId = auth()->user()->role;
         if($this->searchPost !== null){
             $posts = Post::userPost($userId)->where('title', 'like', '%'.$this->searchPost.'%')->paginate(10);
         }else{
