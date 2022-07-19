@@ -4,11 +4,14 @@ namespace App\Http\Livewire;
 
 use App\Models\Post;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Posts extends Component
 {
-    public $posts, $title, $body,$user_id,$post_id;
+    public $title, $body,$user_id,$post_id;
     public $updateMode = false;
+
+    use WithPagination;
 
     protected $rules = [
         'title' => 'required|min:6',
@@ -23,11 +26,11 @@ class Posts extends Component
     public function render()
     {
         if(auth()->id() == 1){
-            $this->posts = Post::latest()->get();
+            $posts = Post::paginate(10);
         }else{
-            $this->posts = Post::userPost(auth()->id())->get();
+            $posts = Post::userPost(auth()->id())->paginate(10);
         }
-        return view('livewire.posts.list');
+        return view('livewire.posts.list', ['posts' =>$posts]);
     }
 
     private function resetInputFields(){
