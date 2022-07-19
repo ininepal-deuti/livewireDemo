@@ -19,6 +19,10 @@ class Post extends Model
 
     public function scopeUserPost($query,$user)
     {
-        return $query->where('user_id',$user)->orderBy('id','desc');
+        if($user == 1){
+            return $query->orderBy('id','desc');
+        }else{
+            return $query->where('user_id',$user)->orderBy('id','desc');
+        }
     }
 }

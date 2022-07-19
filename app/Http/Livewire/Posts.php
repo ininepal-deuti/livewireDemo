@@ -8,8 +8,10 @@ use Livewire\WithPagination;
 
 class Posts extends Component
 {
-    public $title, $body,$user_id,$post_id;
+    public $title, $body,$user_id,$post_id , $searchPost;
     public $updateMode = false;
+
+    protected $queryString = ['searchPost'];
 
     use WithPagination;
 
@@ -25,10 +27,11 @@ class Posts extends Component
 
     public function render()
     {
-        if(auth()->id() == 1){
-            $posts = Post::paginate(10);
+        $userId = auth()->id();
+        if($this->searchPost !== null){
+            $posts = Post::userPost($userId)->where('title', 'like', '%'.$this->searchPost.'%')->paginate(10);
         }else{
-            $posts = Post::userPost(auth()->id())->paginate(10);
+            $posts = Post::userPost($userId)->paginate(10);
         }
         return view('livewire.posts.list', ['posts' =>$posts]);
     }

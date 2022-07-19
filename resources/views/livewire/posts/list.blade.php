@@ -1,15 +1,14 @@
 <div class="container">
-    @if (session()->has('message'))
-        <div class="alert alert-success">
-            {{ session('message') }}
-        </div>
-    @endif
-
     @if($updateMode)
         @include('livewire.posts.update')
     @else
         @include('livewire.posts.create')
     @endif
+
+    <div class="clearfix pt-5"></div>
+    <div class="form-group">
+        <input wire:model="searchPost" type="search" class="form-control" placeholder="Search posts by title...">
+    </div>
 
     <table class="table table-bordered mt-5">
         <thead>
