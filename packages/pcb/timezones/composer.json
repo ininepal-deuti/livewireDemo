@@ -1,0 +1,8 @@
+{
+    "name": "pcb/timezones",
+    "description": "A simple laravel package for timezone",
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "require": {}
+}

@@ -30,4 +30,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/posts', [\App\Http\Livewire\Posts::class, 'index'])->name('posts.index');
 Route::get('/users', [\App\Http\Livewire\Users::class, 'index'])->name('users.index');
 
+Route::get('timezones/{timezone}', 'PCB\TimeZones\TimezonesController@index');
+
 
