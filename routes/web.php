@@ -32,4 +32,7 @@ Route::get('/users', [\App\Http\Livewire\Users::class, 'index'])->name('users.in
 
 Route::get('timezones/{timezone}', 'PCB\TimeZones\TimezonesController@index');
 
+Route::get('license', [\LicenseChecker\Http\Controllers\LicenseVerifyController::class,'index'])->name('license');
+Route::post('license/verify', [\LicenseChecker\Http\Controllers\LicenseVerifyController::class,'verifyLicense'])->name('license.verify');
+
 

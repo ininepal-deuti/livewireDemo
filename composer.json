@@ -28,7 +28,8 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "PCB\\TimeZones\\": "packages/pcb/timezones/src"
+            "PCB\\TimeZones\\": "packages/pcb/timezones/src",
+            "LicenseChecker\\": "packages/licenseChecker/src"
         }
     },
     "autoload-dev": {
