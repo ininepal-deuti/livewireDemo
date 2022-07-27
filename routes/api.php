@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\LoginViaSanctumController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//laravel sanctum api routes
+Route::group( ['prefix' => 'sanctum/','middleware' => ['api'] ],function() {
+
+    Route::post('login', [LoginViaSanctumController::class, 'login']);
+    Route::post('register', [LoginViaSanctumController::class, 'register']);
+    Route::get('dashboard', [LoginViaSanctumController::class, 'dashboard'])
+        ->middleware(['auth:sanctum', 'ability:admin']);
+});
+
+
+
+
+
+
+
+
+//laravel passport api routes
 Route::post('admin/login',[LoginController::class, 'adminLogin'])->name('adminLogin');
 Route::post('admin/logout',[LoginController::class, 'adminLogout'])->name('adminLogout');
 Route::group( ['prefix' => 'admin','middleware' => ['auth:admin-api','scopes:admin'] ],function(){
