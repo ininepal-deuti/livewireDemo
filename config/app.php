@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         LicenseChecker\Providers\LicenseServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
 
     ],
 
