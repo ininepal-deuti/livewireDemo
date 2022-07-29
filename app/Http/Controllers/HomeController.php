@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Jobs\SendEmail;
 use App\Models\User;
+use App\Notifications\UserCreate;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class HomeController extends Controller
 {
@@ -38,5 +40,12 @@ class HomeController extends Controller
         }catch (Exception $exception){
             echo $exception->getMessage();
         }
+    }
+
+    public function sendNotification()
+    {
+        $user  = User::find(2);
+        Notification::send($user, new UserCreate($user));
+        return "done";
     }
 }

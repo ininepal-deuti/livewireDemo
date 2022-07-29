@@ -37,12 +37,11 @@ class Users extends Component
     public function submitUser()
     {
         $this->validate();
-        User::create([
+        $user = User::create([
             'name' => $this->name,
             'email' => $this->email,
             'password' => Hash::make($this->password),
         ]);
-
         session()->flash('message', 'User Created Successfully.');
         $this->resetInputFields();
     }
@@ -64,7 +63,6 @@ class Users extends Component
 
     public function updateUser()
     {
-        $this->validate();
         $user = User::find($this->user_id);
         $user->update([
             'name' => $this->name,
@@ -79,5 +77,20 @@ class Users extends Component
     {
         User::find($id)->delete();
         session()->flash('message', 'User Deleted Successfully.');
+    }
+
+    public function userShow($id)
+    {
+        $user = User::find($id);
+        return view('livewire.users.show',compact('user'));
+    }
+
+    public function userNotification($userId,$notifyId)
+    {
+        $user = User::find($userId);
+        $notify = $user->notifications();
+        $notify->find($notifyId)->markAsRead();
+        session()->flash('message', 'User Notification Mark as Read.');
+        return redirect()->route('users.show',$user->id);
     }
 }

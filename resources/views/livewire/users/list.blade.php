@@ -27,6 +27,7 @@
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>
+                    <a href="{{ route('users.show',$user->id) }}" class="btn btn-info btn-sm">View</a>
                     <button wire:click="editUser({{ $user->id }})" class="btn btn-primary btn-sm">Edit</button>
                     <button wire:click="destroyUser({{ $user->id }})" class="btn btn-danger btn-sm">Delete</button>
                 </td>
