@@ -12,7 +12,7 @@ class SendMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $user;
+    public $user;
     /**
      * Create a new message instance.
      *
@@ -30,6 +30,6 @@ class SendMail extends Mailable
      */
     public function build()
     {
-        return $this->view('email')/*->with($this->user)*/;
+        return $this->subject('Queue & Jobs')->view('email');
     }
 }

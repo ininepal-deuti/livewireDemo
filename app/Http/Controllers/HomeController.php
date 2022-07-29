@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\SendEmail;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -30,9 +31,12 @@ class HomeController extends Controller
 
     public function sendEmail()
     {
-        $user  = User::find(2)->toArray();
-        //dd($user);
-        SendEmail::dispatch($user)->delay(now()->addMinutes(1));
-
+        $user  = User::find(2);
+        try{
+            SendEmail::dispatch($user)->delay(now()->addMinutes(1));
+            return response()->json(['message'=>'Mail Send Successfully!!']);
+        }catch (Exception $exception){
+            echo $exception->getMessage();
+        }
     }
 }

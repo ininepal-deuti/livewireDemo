@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\SendMail;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -14,16 +15,16 @@ class SendEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $data;
+    public $user;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct(User $user)
     {
-        $this->data = $data;
+        $this->user = $user;
     }
 
     /**
@@ -33,7 +34,6 @@ class SendEmail implements ShouldQueue
      */
     public function handle()
     {
-        $email = new SendMail();
-        Mail::to($this->data['email'])->send($email);
+        Mail::to('deuti@ininepal.com')->send(new SendMail($this->user));
     }
 }

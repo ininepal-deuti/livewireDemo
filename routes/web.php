@@ -35,15 +35,5 @@ Route::get('timezones/{timezone}', 'PCB\TimeZones\TimezonesController@index');
 Route::get('license', [\LicenseChecker\Http\Controllers\LicenseVerifyController::class,'index'])->name('license');
 Route::post('license/verify', [\LicenseChecker\Http\Controllers\LicenseVerifyController::class,'verifyLicense'])->name('license.verify');
 
-//Route::get('/send-email', [App\Http\Controllers\HomeController::class, 'sendEmail'])->name('sendEmail');
+Route::get('/send-email', [App\Http\Controllers\HomeController::class, 'sendEmail'])->name('sendEmail');
 
-Route::get('send-email', function(){
-    $details['email'] = 'deuti@ininepal.com';
-    //dd($details['email']);
-    try{
-        dispatch(new App\Jobs\SendEmail($details));
-        return response()->json(['message'=>'Mail Send Successfully!!']);
-    }catch (Exception $exception){
-        echo $exception->getMessage();
-    }
-});
