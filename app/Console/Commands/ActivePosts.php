@@ -2,26 +2,24 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\SendMail;
-use App\Models\User;
+use App\Models\Post;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Mail;
 
-class SendEmails extends Command
+class ActivePosts extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'mail:send';
+    protected $signature = 'active:posts';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Sending email to all users';
+    protected $description = 'Active all posts in table';
 
     /**
      * Create a new command instance.
@@ -40,10 +38,7 @@ class SendEmails extends Command
      */
     public function handle()
     {
-        $users = User::where('role','user')->get();
-        foreach ($users as $user){
-            Mail::to('deuti@ininepal.com')->send(new SendMail($user));
-        }
-        return 'Mail Send';
+        $posts = Post::query()->update(  ['status' => 1] );
+        return 'Update Status';
     }
 }

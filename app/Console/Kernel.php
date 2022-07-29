@@ -9,6 +9,7 @@ class Kernel extends ConsoleKernel
 {
     protected $commands = [
         Commands\SendEmails::class,
+        Commands\ActivePosts::class,
     ];
     /**
      * Define the application's command schedule.
@@ -19,7 +20,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-         $schedule->command('send:email')->everyMinute();
+         $schedule->command('mail:send')->everyMinute();
+         $schedule->command('active:posts')->fridays()->everyMinute()
+             ->timezone('Asia/Kathmandu')->between('12.00','13.00');
     }
 
     /**
