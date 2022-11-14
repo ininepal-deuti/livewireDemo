@@ -18,13 +18,20 @@ Route::get('/', function () {
 });
 
 
-Route::group(['prefix' => 'login', 'middleware' => 'auth'], function () {
-    Route::get('/facebook', [\App\Http\Controllers\SocialController::class, 'redirectToProvider']);
-    Route::get('/callback', [\App\Http\Controllers\SocialController::class, 'handleProviderCallback']);
-});
+//Route::group(['prefix' => 'login', 'middleware' => 'auth'], function () {
+//    Route::get('/facebook', [\App\Http\Controllers\SocialController::class, 'redirectToProvider']);
+//    Route::get('/callback', [\App\Http\Controllers\SocialController::class, 'handleProviderCallback']);
+//});
 
 Auth::routes();
 
+//2F auth
+Route::group(['middleware'=>'auth'],function(){
+    Route::post('/user/two-factor-authentication/' ,[App\Http\Controllers\TwoFactorAuthenticationController::class, 'twoFactorEnable'])
+        ->name('auth.two_factor.enable');
+    Route::delete('/user/two-factor-authentication-disabled/' ,[App\Http\Controllers\TwoFactorAuthenticationController::class, 'twoFactorDisable'])
+        ->name('auth.two_factor.disable');
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/posts', [\App\Http\Livewire\Posts::class, 'index'])->name('posts.index');
