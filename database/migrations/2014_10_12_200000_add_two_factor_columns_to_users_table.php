@@ -27,6 +27,10 @@ return new class extends Migration
                 $table->timestamp('two_factor_confirmed_at')
                         ->after('two_factor_recovery_codes')
                         ->nullable();
+
+                $table->boolean('two_factor_confirmed')
+                    ->after('two_factor_confirmed_at')
+                    ->default(0);
             }
         });
     }
