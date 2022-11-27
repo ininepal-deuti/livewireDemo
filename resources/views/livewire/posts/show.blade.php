@@ -16,6 +16,12 @@
                 </p>
                 <p><strong>Status:</strong> @if($post->status == 1) Active @else Inactive @endif </p>
                 <p><strong>Written By:</strong> {{ $post->author->name }}</p>
+
+                <p><strong>Activity Log:</strong></p>
+
+                <ul class="card-body">
+                    <li></li>
+                </ul>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -23,7 +23,7 @@ class Posts extends Component
     protected $rules = [
         'title' => 'required|min:6',
         'body' => 'required|string',
-        'photo' => 'required',
+        'photo' => 'nullable',
     ];
 
     public function index()
@@ -52,13 +52,17 @@ class Posts extends Component
     public function store()
     {
         $this->validate();
-        $filename = $this->photo->store('photos','public');
-        Post::create([
+        if(isset($this->photo) && $this->photo->isValid()) {
+            $filename = $this->photo->storeAs('photos',$this->photo->getClientOriginalName());
+        }
+        $post = Post::create([
             'title' => $this->title,
             'body' => $this->body,
-            'photo' => $filename,
+            'photo' => $filename ?? null,
             'user_id' => auth()->id(),
         ]);
+        activity()->causedBy(auth()->user())->performedOn($post)->useLogName($post->title)
+            ->log('post created');
         session()->flash('message', 'Post Created Successfully.');
         $this->resetInputFields();
     }
@@ -84,27 +88,36 @@ class Posts extends Component
     {
         $this->validate();
         $post = Post::find($this->post_id);
-        $filename = $this->photo->store('photos','public');
+        if(isset($this->photo) && $this->photo->isValid()) {
+            $filename = $this->photo->storeAs('photos',$this->photo->getClientOriginalName());
+        }
         $post->update([
             'title' => $this->title,
             'body' => $this->body,
-            'photo' => $filename,
+            'photo' => $filename ?? null,
             'user_id' => auth()->id(),
         ]);
         $this->updateMode = false;
+        activity()->causedBy(auth()->user())->performedOn($post)->useLogName($post->title)
+            ->log('post updated');
         session()->flash('message', 'Post Updated Successfully.');
         $this->resetInputFields();
     }
 
     public function delete($id)
     {
-        Post::find($id)->delete();
+        $post = Post::find($id);
+        activity()->causedBy(auth()->user())->performedOn($post)
+            ->log('post deleted');
+        $post->delete();
         session()->flash('message', 'Post Deleted Successfully.');
     }
 
     public function changePostStatus($id)
     {
         $post = Post::find($id);
+        activity()->causedBy(auth()->user())->performedOn($post)->useLogName($post->title)
+            ->log('post status updated');
         if($post->status == 1){
             $this->postStatus = $post->update(['status' =>0]);
         }else{
