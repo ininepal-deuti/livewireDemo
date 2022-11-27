@@ -27,6 +27,8 @@ Auth::routes();
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/single-post/{post}', [App\Http\Controllers\HomeController::class, 'showPost'])->name('showPost');
+Route::get('/activity-logs', [App\Http\Controllers\HomeController::class, 'activityLogs'])->name('activityLogs');
 Route::get('/posts', [\App\Http\Livewire\Posts::class, 'index'])->name('posts.index');
 Route::get('/users', [\App\Http\Livewire\Users::class, 'index'])->name('users.index');
 

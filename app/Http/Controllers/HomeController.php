@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SendEmail;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\Models\Activity;
 
 class HomeController extends Controller
 {
@@ -33,6 +35,14 @@ class HomeController extends Controller
         $user  = User::find(2)->toArray();
         //dd($user);
         SendEmail::dispatch($user)->delay(now()->addMinutes(1));
+    }
 
+    public function activityLogs() {
+        $activityLogs  = Activity::all();
+        return view('activitylog',compact('activityLogs'));
+    }
+
+    public function showPost(Post $post) {
+        return view('livewire.posts.show',compact('post'));
     }
 }

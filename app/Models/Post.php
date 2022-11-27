@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Activity;
 
 class Post extends Model
 {
@@ -24,5 +25,9 @@ class Post extends Model
         }else{
             return $query->where('user_id',auth()->id())->orderBy('id','desc');
         }
+    }
+
+    public function activity() {
+        return $this->hasMany(Activity::class,'subject_id');
     }
 }
