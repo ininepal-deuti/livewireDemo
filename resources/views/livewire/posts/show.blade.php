@@ -17,6 +17,7 @@
                 <p><strong>Status:</strong> @if($post->status == 1) Active @else Inactive @endif </p>
                 <p><strong>Written By:</strong> {{ $post->author->name }}</p>
 
+                @if($post->activity != null)
                 <p><strong>Activity Log</strong></p>
 
                 <table class="table table-bordered mt-5 ">
@@ -59,16 +60,16 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{ $post->activity->last()->id }}</td>
-                            <td>{{ $post->activity->last()->log_name }}</td>
-                            <td>{{ $post->activity->last()->description }}</td>
+                            <td>{{ $post->activity->last()->id ?? '' }}</td>
+                            <td>{{ $post->activity->last()->log_name ?? '' }}</td>
+                            <td>{{ $post->activity->last()->description ?? '' }}</td>
                             <td>{{ $post->activity->last()->subject->title ?? ''}}</td>
                             <td>{{ $post->activity->last()->causer->name ?? '' }}</td>
-                            <td>{{ $post->activity->last()->created_at->diffForHumans() }}</td>
+                            <td>{{ ($post->activity->last() != null ) ? $post->activity->last()->created_at->diffForHumans() : ''}}</td>
                         </tr>
                     </tbody>
                 </table>
-
+                @endif
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
