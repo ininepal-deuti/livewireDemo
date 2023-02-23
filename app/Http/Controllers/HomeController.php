@@ -27,13 +27,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $all_post = Post::paginate(8);
+        return view('layouts.home',compact('all_post'));
     }
 
     public function sendEmail()
     {
         $user  = User::find(2)->toArray();
-        //dd($user);
         SendEmail::dispatch($user)->delay(now()->addMinutes(1));
     }
 
